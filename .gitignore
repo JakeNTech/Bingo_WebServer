@@ -1,0 +1,7 @@
+/word_lists
+*.pyo
+*.pyc
+/dev_storage
+/static/assets/bingo_cards
+/dev_storage/users
+/static/assets/img/Krayzer.png

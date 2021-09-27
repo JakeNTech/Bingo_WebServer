@@ -1,0 +1,30 @@
+/*style.css
+JakeNTech
+19-04-19*/
+/*body -- NOTE: This is only to apply the Google Font!*/
+body{
+    font-family: 'Roboto', sans-serif;
+    background-image: url("/assets/img/Krayzer.png");
+}
+header{
+    text-align: center;
+    background-color: #a1a6ad;
+    color: white;
+    padding: 0.5%;
+}
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+#center_box {
+	position: relative;
+ 	margin: auto;
+	text-align:center;
+    background-color: rgba(255,255,255,0.9);
+}
+#bingo_card_table,td{
+    border:1px solid blue;
+}
+#bingo_card_table{
+    width: 100%;
+}
