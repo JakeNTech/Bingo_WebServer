@@ -38,23 +38,189 @@ function load_card(username){
     })
     .then(function (data){
         bingo_card = JSON.parse(data)
-        //bingo_card = data
-        document.getElementById("center_box").innerHTML = "<h1>Bingo Card</h1><p>Below is your bingo card...have fun out their and get out of Tea Game</p>"
-        console.log(bingo_card)
+        document.getElementById("center_box").innerHTML = "<h1>Bingo Card</h1><p>Below is your bingo card..have fun out their and get out of Tea Game</p>"
         tbl=$("<table/>").attr("id","bingo_card_table");
+        j = 0;
         $("#center_box").append(tbl);
         for(i=0;i<5;i++)
         {
             var tr="<tr>";
-            var td1="<td class='text'>"+bingo_card[i]["0"]+"</td>";
-            var td2="<td class='text'>"+bingo_card[i]["1"]+"</td>";
-            var td3="<td class='text'>"+bingo_card[i]["2"]+"</td>";
-            var td4="<td class='text'>"+bingo_card[i]["3"]+"</td>";
-            var td5="<td class='text'>"+bingo_card[i]["4"]+"</td></tr>";
-        $("#bingo_card_table").append(tr+td1+td2+td3+td4+td5);
+            var td1=`<td class="text" id="sq${j}" onclick="marksquare('sq${j}')">${bingo_card[i]["0"]}</td>`;
+            j++
+            var td2=`<td class="text" id="sq${j}" onclick="marksquare('sq${j}')">${bingo_card[i]["1"]}</td>`;
+            j++
+            var td3=`<td class="text" id="sq${j}" onclick="marksquare('sq${j}')">${bingo_card[i]["2"]}</td>`;
+            j++
+            var td4=`<td class="text" id="sq${j}" onclick="marksquare('sq${j}')">${bingo_card[i]["3"]}</td>`;
+            j++
+            var td5=`<td class="text" id="sq${j}" onclick="marksquare('sq${j}')">${bingo_card[i]["4"]}</td>`;
+            j++
+            $("#bingo_card_table").append(tr+td1+td2+td3+td4+td5);
         }
-        $('.text').click(function() {
-            $(this).html('<span>X</span>');
-        });
+        document.getElementById("center_box").innerHTML += "<div id='bingo_button'><input type='button' class='button' name='bingo' id='Bingo' value='Bingo' onclick='checkForBingo()'></div>"
     })
+}
+function marksquare(square){
+    val = document.getElementById(square).innerHTML 
+    document.getElementById(square).innerHTML= "<s>"+val+"</s>"
+}
+function checkForBingo(){
+    checkVerticalBingo();
+    checkHorizontalBingo();
+    checkDiagonalBingo();
+    checkCornersBingo();
+    checkFullBingo();
+}
+function checkVerticalBingo() {
+    for (var i = 0; i < 5; i++) {
+        var sq1 = document.getElementById('sq' + i);
+        var sq2 = document.getElementById('sq' + (i + 5));
+        var sq3 = document.getElementById('sq' + (i + 10));
+        var sq4 = document.getElementById('sq' + (i + 15));
+        var sq5 = document.getElementById('sq' + (i + 20));
+        checkLines(sq1, sq2, sq3, sq4, sq5);
+    }
+}
+
+function checkHorizontalBingo() {
+    j = 0;
+    for (var i = 0; i < 5; i++) {
+        switch(i) {
+            case 0: 
+                var sq1 = document.getElementById('sq' + i);
+                var sq2 = document.getElementById('sq' + (i + 1));
+                var sq3 = document.getElementById('sq' + (i + 2));
+                var sq4 = document.getElementById('sq' + (i + 3));
+                var sq5 = document.getElementById('sq' + (i + 4));
+                break;
+            case 1: 
+                var sq1 = document.getElementById('sq' + (i + 4));
+                var sq2 = document.getElementById('sq' + (i + 5));
+                var sq3 = document.getElementById('sq' + (i + 6));
+                var sq4 = document.getElementById('sq' + (i + 7));
+                var sq5 = document.getElementById('sq' + (i + 8));
+                break;
+            case 2: 
+                var sq1 = document.getElementById('sq' + (i + 8));
+                var sq2 = document.getElementById('sq' + (i + 9));
+                var sq3 = document.getElementById('sq' + (i + 10));
+                var sq4 = document.getElementById('sq' + (i + 11));
+                var sq5 = document.getElementById('sq' + (i + 12));
+                break;
+            case 3: 
+                var sq1 = document.getElementById('sq' + (i + 12));
+                var sq2 = document.getElementById('sq' + (i + 13));
+                var sq3 = document.getElementById('sq' + (i + 14));
+                var sq4 = document.getElementById('sq' + (i + 15));
+                var sq5 = document.getElementById('sq' + (i + 16));
+                break;
+            case 4: 
+                var sq1 = document.getElementById('sq' + (i + 16));
+                var sq2 = document.getElementById('sq' + (i + 17));
+                var sq3 = document.getElementById('sq' + (i + 18));
+                var sq4 = document.getElementById('sq' + (i + 19));
+                var sq5 = document.getElementById('sq' + (i + 20));
+                break;
+        }
+        checkLines(sq1, sq2, sq3, sq4, sq5);
+    }
+}
+
+function checkDiagonalBingo() {
+    for (var i = 0; i < 2; i++) {
+        switch(i) {
+            case 0:
+                var sq1 = document.getElementById('sq' + 0);
+                var sq2 = document.getElementById('sq' + 6);
+                var sq3 = document.getElementById('sq' + 12);
+                var sq4 = document.getElementById('sq' + 18);
+                var sq5 = document.getElementById('sq' + 24);
+                break;
+            case 1:
+                var sq1 = document.getElementById('sq' + 4);
+                var sq2 = document.getElementById('sq' + 8);
+                var sq3 = document.getElementById('sq' + 12);
+                var sq4 = document.getElementById('sq' + 16);
+                var sq5 = document.getElementById('sq' + 20);
+                break;
+        }
+        checkLines(sq1, sq2, sq3, sq4, sq5);
+    }
+}
+
+function checkCornersBingo() {
+    var sq1 = document.getElementById('sq' + 0);
+    var sq2 = document.getElementById('sq' + 4);
+    var sq3 = document.getElementById('sq' + 20);
+    var sq4 = document.getElementById('sq' + 24);
+
+    if (sq1.value == "X" &&
+            sq2.value == "X" &&
+            sq3.value == "X" &&
+            sq4.value == "X") {
+                youWin();
+                return;
+    }
+}
+
+function checkFullBingo() {
+    var j = 0;
+    var flag = false;
+    for (var i = 0; i < 5; i++) {
+        var sq1 = document.getElementById('sq' + j);
+        j++;
+        var sq2 = document.getElementById('sq' + j);
+        j++;
+        var sq3 = document.getElementById('sq' + j);
+        j++;
+        var sq4 = document.getElementById('sq' + j);
+        j++;
+        var sq5 = document.getElementById('sq' + j);
+        j++;
+
+        if (sq1.value == "X" &&
+            sq2.value == "X" &&
+            sq3.value == "X" &&
+            sq4.value == "X" &&
+            sq5.value == "X") {
+                flag = true;
+        }
+        else if (sq1.value == "X" &&
+            sq2.value == "X" &&
+            sq3.value == "FREE" &&
+            sq4.value == "X" &&
+            sq5.value == "X") {
+                flag = true;
+        }
+        else {
+            flag = false;
+            break;
+        }
+    }
+    if (flag == true) {
+        youWin();
+    }
+}
+
+function checkLines(sq1, sq2, sq3, sq4, sq5) {
+    if (sq1.value == "X" &&
+        sq2.value == "X" &&
+        sq3.value == "X" &&
+        sq4.value == "X" &&
+        sq5.value == "X") {
+            youWin();
+            return;
+    }
+    else if (sq1.value == "X" &&
+            sq2.value == "X" &&
+            sq3.value == "X" &&
+            sq4.value == "X" &&
+            sq5.value == "X") {
+                youWin();
+                return;
+    }
+}
+function youWin() {
+    alert("BINGO! You win!");
+    throw new Error("Not an error! Just finishes any execution of the game!");
 }

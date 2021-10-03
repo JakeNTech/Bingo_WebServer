@@ -22,7 +22,7 @@ def send_img(file):
     img_path = "assets/img/"+file
     return app.send_static_file(img_path)
 
-# Deal with API requests...by passing them to the other python file and then back to JS.
+# Deal with API requests..by passing them to the other python file and then back to JS.
 @app.route('/api/<action>',methods=['GET'])
 def api_call(action):
     username = request.args.get("username")
