@@ -11,6 +11,10 @@ function home(){
             </div>
         </div>
     </div>`
+    document.getElementById("navigation_bar").innerHTML=`
+    <ul> 
+        <li><a href="#" onclick="home()">Login</a></li>
+    </ul>`
 }
 
 function login(){
@@ -23,6 +27,11 @@ function login(){
         text = JSON.parse(text)
         if(text.status == "SUCSESS"){
             load_card(text.username)
+            document.getElementById("navigation_bar").innerHTML=`
+            <ul>
+              <li><a href="#" id="menu_username">${text.username}</a></li>  
+			  <li><a href="#" onclick="home()">Logout</a></li>
+			</ul>`
         }
         else{
             alert("Login Not Found")
@@ -155,9 +164,9 @@ function checkCornersBingo() {
     var sq4 = document.getElementById('sq' + 24);
 
     if (sq1.value == "X" &&
-            sq2.value == "X" &&
-            sq3.value == "X" &&
-            sq4.value == "X") {
+            sq2.innerHTML.includes("<s>") &&
+            sq3.innerHTML.includes("<s>") &&
+            sq4.innerHTML.includes("<s>")) {
                 youWin();
                 return;
     }
@@ -178,18 +187,18 @@ function checkFullBingo() {
         var sq5 = document.getElementById('sq' + j);
         j++;
 
-        if (sq1.value == "X" &&
-            sq2.value == "X" &&
-            sq3.value == "X" &&
-            sq4.value == "X" &&
-            sq5.value == "X") {
+        if (sq1.innerHTML.includes("<s>") &&
+            sq2.innerHTML.includes("<s>") &&
+            sq3.innerHTML.includes("<s>") &&
+            sq4.innerHTML.includes("<s>") &&
+            sq5.innerHTML.includes("<s>")) {
                 flag = true;
         }
-        else if (sq1.value == "X" &&
-            sq2.value == "X" &&
-            sq3.value == "FREE" &&
-            sq4.value == "X" &&
-            sq5.value == "X") {
+        else if (sq1.innerHTML.includes("<s>") &&
+            sq2.innerHTML.includes("<s>") &&
+            sq3.innerHTML.includes("<s>") &&
+            sq4.innerHTML.includes("<s>") &&
+            sq5.innerHTML.includes("<s>")) {
                 flag = true;
         }
         else {
@@ -203,24 +212,29 @@ function checkFullBingo() {
 }
 
 function checkLines(sq1, sq2, sq3, sq4, sq5) {
-    if (sq1.value == "X" &&
-        sq2.value == "X" &&
-        sq3.value == "X" &&
-        sq4.value == "X" &&
-        sq5.value == "X") {
+    if (sq1.innerHTML.includes("<s>") &&
+        sq2.innerHTML.includes("<s>") &&
+        sq3.innerHTML.includes("<s>") &&
+        sq4.innerHTML.includes("<s>") &&
+        sq5.innerHTML.includes("<s>")) {
             youWin();
             return;
     }
-    else if (sq1.value == "X" &&
-            sq2.value == "X" &&
-            sq3.value == "X" &&
-            sq4.value == "X" &&
-            sq5.value == "X") {
+    else if (sq1.innerHTML.includes("<s>") &&
+            sq2.innerHTML.includes("<s>") &&
+            sq3.innerHTML.includes("<s>") &&
+            sq4.innerHTML.includes("<s>") &&
+            sq5.innerHTML.includes("<s>")) {
                 youWin();
                 return;
     }
 }
 function youWin() {
     alert("BINGO! You win!");
+    url = "/api/win?username="+document.getElementById("menu_username").innerHTML
+    fetch(url)
+    .then(function (response){
+        return response.text()
+    })
     throw new Error("Not an error! Just finishes any execution of the game!");
 }

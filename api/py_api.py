@@ -23,12 +23,8 @@ def api(action,username):
 			to_return = {"username":username,"status":"SUCSESS"}
 		else:
 			to_return = {"error":"User not found"}
-	elif action == "update_card":
-		df = load_db()
-		this_row = df.loc[df["username"]==username]
-		print(this_row)
-		#bingo.update(username,item,row)
-		to_return = {"OK":"OK"}
+	elif action == "win":
+		user_management.win(username,load_db())
 	else:
 		to_return={"message":"CHEAT"}
 	return to_return
