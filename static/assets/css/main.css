@@ -26,5 +26,13 @@ img {
     border:1px solid blue;
 }
 #bingo_card_table{
+    border-collapse: collapse;
     width: 100%;
 }
+th, td {
+    padding: 8px;
+}
+th {
+    background-color: #34b1eb;
+    color: white;
+    font-weight: bold;

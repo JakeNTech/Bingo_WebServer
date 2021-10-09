@@ -25,6 +25,11 @@ def api(action,username):
 			to_return = {"error":"User not found"}
 	elif action == "win":
 		user_management.win(username,load_db())
+		to_return = {"OK":"OK"}
+	elif action == "leaderboard":
+		to_return = user_management.leaderboard(load_db())
+	elif action == "update":
+		print(action,username)
 	else:
 		to_return={"message":"CHEAT"}
 	return to_return

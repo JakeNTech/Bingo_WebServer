@@ -14,6 +14,7 @@ function home(){
     document.getElementById("navigation_bar").innerHTML=`
     <ul> 
         <li><a href="#" onclick="home()">Login</a></li>
+        <li><a href="#" onclick="leaderboard()">Leaderboard</a></li>
     </ul>`
 }
 
@@ -38,7 +39,6 @@ function login(){
         }
     })
 }
-
 function load_card(username){
     url = "/api/load_card?username="+username
     fetch(url)
@@ -71,6 +71,8 @@ function load_card(username){
 }
 function marksquare(square){
     val = document.getElementById(square).innerHTML 
+    url = "/api/update_card?square="+square+"&username="+document.getElementById("menu_username").innerHTML
+    fetch(url)
     document.getElementById(square).innerHTML= "<s>"+val+"</s>"
 }
 function checkForBingo(){
@@ -90,7 +92,6 @@ function checkVerticalBingo() {
         checkLines(sq1, sq2, sq3, sq4, sq5);
     }
 }
-
 function checkHorizontalBingo() {
     j = 0;
     for (var i = 0; i < 5; i++) {
@@ -134,7 +135,6 @@ function checkHorizontalBingo() {
         checkLines(sq1, sq2, sq3, sq4, sq5);
     }
 }
-
 function checkDiagonalBingo() {
     for (var i = 0; i < 2; i++) {
         switch(i) {
@@ -156,7 +156,6 @@ function checkDiagonalBingo() {
         checkLines(sq1, sq2, sq3, sq4, sq5);
     }
 }
-
 function checkCornersBingo() {
     var sq1 = document.getElementById('sq' + 0);
     var sq2 = document.getElementById('sq' + 4);
@@ -171,7 +170,6 @@ function checkCornersBingo() {
                 return;
     }
 }
-
 function checkFullBingo() {
     var j = 0;
     var flag = false;
@@ -210,7 +208,6 @@ function checkFullBingo() {
         youWin();
     }
 }
-
 function checkLines(sq1, sq2, sq3, sq4, sq5) {
     if (sq1.innerHTML.includes("<s>") &&
         sq2.innerHTML.includes("<s>") &&
@@ -233,8 +230,25 @@ function youWin() {
     alert("BINGO! You win!");
     url = "/api/win?username="+document.getElementById("menu_username").innerHTML
     fetch(url)
+    throw new Error("Not an error! Just finishes any execution of the game!");
+}
+function leaderboard(){
+    url = "/api/leaderboard"
+    fetch(url)
     .then(function (response){
         return response.text()
     })
-    throw new Error("Not an error! Just finishes any execution of the game!");
+    .then(function (data){
+        data = JSON.parse(data)
+        document.getElementById("center_box").innerHTML = "<h1>Leaderboard</h1><p>Are you winning?</p>"
+        tbl=$("<table/>").attr("id","leader_table");
+        $("#center_box").append(tbl);
+        for(i=0;i<5;i++)
+        {
+            var tr="<tr>";
+            var td1=`<td class="text">${data["username"][i]}</td>`;
+            var td2=`<td class="text">${data["wins"][i]}</td></tr>`;
+            $("#leader_table").append(tr+td1+td2);
+        }
+    })
 }
